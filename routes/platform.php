@@ -32,14 +32,17 @@ use Tabuna\Breadcrumbs\Trail;
 */
 
 // Main
-Route::screen('/main', PlatformScreen::class)
-    ->name('platform.main');
+Route::screen('/dashboard', PlatformScreen::class)
+    ->name('platform.main')
+    ->breadcrumbs(fn(Trail $trail) => $trail
+        ->push('', route('platform.main')));
+
 
 // Platform > Profile
 Route::screen('profile', UserProfileScreen::class)
     ->name('platform.profile')
     ->breadcrumbs(fn (Trail $trail) => $trail
-        ->parent('platform.index')
+        ->parent('platform.main')
         ->push(__('Profile'), route('platform.profile')));
 
 // Platform > System > Users > User
@@ -60,7 +63,7 @@ Route::screen('users/create', UserEditScreen::class)
 Route::screen('users', UserListScreen::class)
     ->name('platform.systems.users')
     ->breadcrumbs(fn (Trail $trail) => $trail
-        ->parent('platform.index')
+        ->parent('platform.main')
         ->push(__('Users'), route('platform.systems.users')));
 
 // Platform > System > Roles > Role
@@ -81,14 +84,14 @@ Route::screen('roles/create', RoleEditScreen::class)
 Route::screen('roles', RoleListScreen::class)
     ->name('platform.systems.roles')
     ->breadcrumbs(fn (Trail $trail) => $trail
-        ->parent('platform.index')
+        ->parent('platform.main')
         ->push(__('Roles'), route('platform.systems.roles')));
 
 // Example...
 Route::screen('example', ExampleScreen::class)
     ->name('platform.example')
     ->breadcrumbs(fn (Trail $trail) => $trail
-        ->parent('platform.index')
+        ->parent('platform.main')
         ->push('Example Screen'));
 
 Route::screen('/examples/form/fields', ExampleFieldsScreen::class)->name('platform.example.fields');
