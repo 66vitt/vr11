@@ -48,7 +48,7 @@ class OrderListScreen extends Screen
                 ->icon('pencil')
                 ->type(Color::PRIMARY)
                 ->route('order.start')
-                ->canSee(Auth::user()->roles[0]->slug === 'driver' && $this->order === null),
+                ->canSee(Auth::user()->roles->count() !== 0 && Auth::user()->roles[0]->slug === 'driver' && $this->order === null),
 //            Link::make('На заказе')
 //                ->canSee(Auth::user()->roles[0]->slug === 'driver' && $this->order !== null)
 //                ->icon('pencil')

@@ -75,8 +75,8 @@ class StartOrderScreen extends Screen
         return [
             Layout::rows([
                 Group::make([
-                    Input::make('zalupa'),
-                    Input::make('zalupa'),
+                    Input::make('zalupa')->title('zalupa'),
+                    Input::make('zalupa')->title('zalupa'),
                 ])
             ])
 //            StartOrderLayout::class,
