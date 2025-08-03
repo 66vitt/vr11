@@ -39,10 +39,36 @@ class PlatformProvider extends OrchidServiceProvider
                 ->title('Navigation')
                 ->route(config('platform.index')),
 
+            Menu::make('Клиенты')
+                ->icon('bs.book')
+                ->title('Navigation')
+                ->route('clients'),
+
+            Menu::make('Автотранспорт')
+                ->icon('bs.truck')
+                ->route('trucks'),
+
+            Menu::make('Тарифы для водителей')
+                ->icon('bs.truck')
+                ->route('rates'),
+
+            Menu::make('Заказы')
+                ->icon('bs.truck')
+                ->route('orders'),
+
+            Menu::make('Общая таблица')
+                ->icon('bs.truck')
+                ->route('finances')
+                ->title('Финансы'),
+            Menu::make('Получение наличных')
+                ->icon('bs.truck')
+                ->route('receives'),
+
             Menu::make('Sample Screen')
                 ->icon('bs.collection')
                 ->route('platform.example')
                 ->badge(fn () => 6),
+
 
             Menu::make('Form Elements')
                 ->icon('bs.card-list')

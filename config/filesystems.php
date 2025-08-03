@@ -38,6 +38,27 @@ return [
             'report' => false,
         ],
 
+        'trucks_images' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/trucks'),
+            'url' => env('APP_URL').'/storage/trucks',
+            'visibility' => 'public',
+        ],
+
+        'users_images' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/users'),
+            'url' => env('APP_URL').'/storage/users',
+            'visibility' => 'public',
+        ],
+
+        'orders_images' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/orders'),
+            'url' => env('APP_URL').'/storage/orders',
+            'visibility' => 'public',
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

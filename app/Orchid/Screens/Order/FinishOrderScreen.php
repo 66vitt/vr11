@@ -1,0 +1,154 @@
+<?php
+
+namespace App\Orchid\Screens\Order;
+
+use App\Http\Requests\FinishOrderRequest;
+use App\Http\Requests\StartOrderRequest;
+use App\Models\Finance;
+use App\Models\Order;
+use App\Models\Rate;
+use App\Orchid\Layouts\Order\FinishOrderLayout;
+use App\Orchid\Layouts\Order\StartOrderLayout;
+use DateTimeInterface;
+use Illuminate\Support\Carbon;
+use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Screen;
+use Orchid\Support\Color;
+use Orchid\Support\Facades\Alert;
+use Orchid\Support\Facades\Toast;
+
+class FinishOrderScreen extends Screen
+{
+    public $order;
+    public $order_last;
+    /**
+     * Fetch data to be displayed on the screen.
+     *
+     * @return array
+     */
+    public function query(Order $order): iterable
+    {
+        return [
+            'order' => $order,
+            'order_last' => Order::where('user_id', auth()->user()->id)->orderBy('created_at')->first(),
+        ];
+    }
+
+    /**
+     * The name of the screen displayed in the header.
+     *
+     * @return string|null
+     */
+    public function name(): ?string
+    {
+        return 'Завершение заказа!';
+    }
+
+    /**
+     * The screen's action buttons.
+     *
+     * @return \Orchid\Screen\Action[]
+     */
+    public function commandBar(): iterable
+    {
+        return [
+            Button::make('Завершить')
+                ->icon('pencil')
+                ->type(Color::PRIMARY)
+                ->method('createOrUpdate'),
+        ];
+    }
+
+    /**
+     * The screen's layout elements.
+     *
+     * @return \Orchid\Screen\Layout[]|string[]
+     */
+    public function layout(): iterable
+    {
+        return [
+            FinishOrderLayout::class,
+        ];
+    }
+
+    public function createOrUpdate(FinishOrderRequest $request)
+    {
+//        dd($request->all());
+        //Добавление данных в таблицу заказов
+        $data = $request->get('order');
+        $data['end_time'] = Carbon::now();
+
+        $rate = Rate::orderBy('created_at', 'desc')->first();
+        $sum = 0;
+        $hours_norm = $rate['city_limit_time'];
+        $distance = $data['end_km'] - $this->order['start_km'];
+        if($distance <= 50){
+            $sum += $rate['city50'];
+        } elseif ($distance > 50 && $distance <= 100){
+            $sum += $rate['region100'];
+            $hours_norm += 1;
+        } elseif ($distance > 100 && $distance <= 150){
+            $sum += $rate['region150'];
+            $hours_norm += 2;
+        } elseif ($distance > 150 && $distance <= 200){
+            $sum += $rate['region200'];
+            $hours_norm += 3;
+        } elseif ($distance > 200){
+            $sum += $rate['region250'];
+            $hours_norm += 4;
+        }
+
+        $longness = ceil(($data['end_time']->timestamp - $this->order['created_at']->timestamp) / 3600);
+        if($longness > $hours_norm){
+            $sum += ($longness - $hours_norm) * $rate['odd_hours_cost'];
+        }
+
+        $sum += $data['ot_number'] * $rate['ot_cost'];
+
+        $sum += $data['self_number'] * $rate['self_cost'];
+        $data['odd_point_number'] = $this->order->points->count() > 2 ? $this->order->points->count() - 2 : 0;
+
+        $sum += $data['odd_point_number'] * $rate['odd_point_cost'];
+
+        $data['sum'] = $sum;
+        $data['confirmed_sum'] = $data['sum'];
+
+
+
+        $this->order->fill($data)->save();
+        $this->order->attachments()->syncWithoutDetaching(
+            $request->input('order.attachments', [])
+        );
+
+        //Добавление данных в таблицу финансов
+//        $findata['user_id'] = $this->order->user_id;
+//        $findata['sum'] = $data['confirmed_sum'];
+//        $findata['order_id'] = $this->order->id;
+//        $findata['target'] = 1;
+//        $financeLast = Finance::where('user_id', $this->order->user_id)->orderBy('id', 'desc')->first();
+//        if($financeLast === null){
+//            $findata['total'] = $findata['sum'];
+//        } else {
+//            $findata['total'] = $financeLast['total'] + $findata['sum'];
+//        }
+//        Finance::create($findata);
+//
+        if($data['cash'] != 0){
+            $fincash['user_id'] = $this->order->user_id;
+            $fincash['sum'] = $data['cash'];
+            $fincash['order_id'] = $this->order->id;
+            $fincash['target'] = 2;
+            $financeLast = Finance::where('user_id', $this->order->user_id)->orderBy('id', 'desc')->first();
+            if($financeLast === null){
+                $fincash['total'] = -$fincash['sum'];
+            } else {
+                $fincash['total'] = $financeLast['total'] - $fincash['sum'];
+            }
+            Finance::create($fincash);
+        }
+
+        Toast::info('Заказ успешно завершен.');
+
+        return redirect()->route('orders');
+    }
+}
