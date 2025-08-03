@@ -126,8 +126,8 @@ return [
      */
 
     'resource' => [
-        'stylesheets' => [],
-        'scripts'     => [],
+        'stylesheets' => ['/css/lightbox.min.css'],
+        'scripts'     => ['/js/lightbox-plus-jquery.js'],
     ],
 
     /*
@@ -142,7 +142,7 @@ return [
      |
      */
 
-    'vite' => [],
+    'vite' => ['resources/js/app.js', 'resources/css/app.css'],
 
     /*
      |--------------------------------------------------------------------------

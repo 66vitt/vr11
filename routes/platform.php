@@ -37,6 +37,98 @@ Route::screen('/dashboard', PlatformScreen::class)
     ->breadcrumbs(fn(Trail $trail) => $trail
         ->push('', route('platform.main')));
 
+// Clients
+Route::screen('/clients', \App\Orchid\Screens\Client\ClientListScreen::class)
+    ->name('clients')
+    ->breadcrumbs(fn(Trail $trail) => $trail
+        ->parent('platform.main')
+        ->push('Клиенты', route('clients')));
+Route::screen('/client/create', \App\Orchid\Screens\Client\ClientCreateScreen::class)
+    ->name('client.create')
+    ->breadcrumbs(fn(Trail $trail) => $trail
+        ->parent('clients')
+        ->push('Добавить клиента'));
+Route::screen('/client/{client}/edit', \App\Orchid\Screens\Client\ClientCreateScreen::class)
+    ->name('client.edit')
+    ->breadcrumbs(fn(Trail $trail, $client) => $trail
+        ->parent('clients')
+        ->push($client->title));
+
+//транспорт
+Route::screen('/trucks', \App\Orchid\Screens\Truck\TruckListScreen::class)
+    ->name('trucks')
+    ->breadcrumbs(fn(Trail $trail) => $trail
+        ->parent('platform.main')
+        ->push('Автотранспорт', route('trucks')));
+Route::screen('truck/create', \App\Orchid\Screens\Truck\TruckEditScreen::class)
+    ->name('trucks.create')
+    ->breadcrumbs(fn(Trail $trail) => $trail
+        ->parent('trucks')
+        ->push('Добавить'));
+Route::screen('truck/{truck}', \App\Orchid\Screens\Truck\TruckShowScreen::class)
+    ->name('trucks.show')
+    ->breadcrumbs(fn(Trail $trail, $truck) => $trail
+        ->parent('trucks')
+        ->push($truck->number));
+Route::screen('truck/{truck}/edit', \App\Orchid\Screens\Truck\TruckEditScreen::class)
+    ->name('trucks.edit')
+    ->breadcrumbs(fn(Trail $trail, $truck) => $trail
+        ->parent('trucks')
+        ->push($truck->number));
+
+//Тарифы
+Route::screen('rates', \App\Orchid\Screens\Rate\CurrentRateScreen::class)
+    ->name('rates')
+    ->breadcrumbs(fn(Trail $trail) => $trail
+        ->parent('platform.main')
+        ->push('Тарифы для водителей', route('rates')));
+Route::screen('rates.edit', \App\Orchid\Screens\Rate\EditRateScreen::class)
+    ->name('rates.edit')
+    ->breadcrumbs(fn(Trail $trail) => $trail
+        ->parent('rates')
+        ->push('Редактирование тарифов'));
+
+
+//Заказы
+Route::screen('orders', \App\Orchid\Screens\Order\OrderListScreen::class)
+    ->name('orders')
+    ->breadcrumbs(fn(Trail $trail) => $trail
+        ->parent('platform.main')
+        ->push('Заказы', route('orders')));
+Route::screen('order/start', \App\Orchid\Screens\Order\StartOrderScreen::class)
+    ->name('order.start')
+    ->breadcrumbs(fn(Trail $trail) => $trail
+        ->parent('platform.main')
+        ->push('Новый заказ', route('order.start')));
+Route::screen('order/{order?}/finish', \App\Orchid\Screens\Order\FinishOrderScreen::class)
+    ->name('order.finish')
+    ->breadcrumbs(fn(Trail $trail) => $trail
+        ->parent('platform.main')
+        ->push('Завершение заказа', route('order.finish')));
+Route::screen('order/{order?}', \App\Orchid\Screens\Order\ShowOrderScreen::class)
+    ->name('order.show')
+    ->breadcrumbs(fn(Trail $trail) => $trail
+        ->parent('orders')
+        ->push('Просмотр заказа', route('order.show')));
+Route::screen('current_order/{order?}', \App\Orchid\Screens\Order\CurrentOrderScreen::class)
+    ->name('current_order')
+    ->breadcrumbs(fn(Trail $trail) => $trail
+        ->parent('orders')
+        ->push('Выполнение заказа', route('current_order')));
+
+//Финансы
+Route::screen('finances', \App\Orchid\Screens\Finance\FinanceListScreen::class)
+    ->name('finances')
+    ->breadcrumbs(fn(Trail $trail) => $trail
+        ->parent('platform.main')
+        ->push('Финансы', route('finances')));
+Route::screen('receives', \App\Orchid\Screens\Finance\ReceivesListScreen::class)
+    ->name('receives')
+    ->breadcrumbs(fn(Trail $trail) => $trail
+        ->parent('finances')
+        ->push('Получение', route('receives')));
+
+
 
 // Platform > Profile
 Route::screen('profile', UserProfileScreen::class)
