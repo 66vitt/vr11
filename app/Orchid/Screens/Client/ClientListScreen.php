@@ -58,6 +58,7 @@ class ClientListScreen extends Screen
      */
     public function layout(): iterable
     {
+        setcookie('last_uri', $_SERVER['REQUEST_URI'], 0, '/');
         return [
             ClientListTable::class,
         ];

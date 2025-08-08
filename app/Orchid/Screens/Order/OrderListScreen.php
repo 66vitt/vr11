@@ -49,11 +49,11 @@ class OrderListScreen extends Screen
                 ->type(Color::PRIMARY)
                 ->route('order.start')
                 ->canSee(Auth::user()->roles->count() !== 0 && Auth::user()->roles[0]->slug === 'driver' && $this->order === null),
-//            Link::make('На заказе')
-//                ->canSee(Auth::user()->roles[0]->slug === 'driver' && $this->order !== null)
-//                ->icon('pencil')
-//                ->type(Color::WARNING)
-//                ->route('current_order', $this->order->id),
+            Link::make('На заказе')
+                ->canSee(Auth::user()->roles[0]->slug === 'driver' && $this->order !== null)
+                ->icon('pencil')
+                ->type(Color::WARNING)
+                ->route('current_order', $this->order->id),
 
         ];
     }

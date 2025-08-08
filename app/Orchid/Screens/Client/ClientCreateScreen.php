@@ -48,11 +48,11 @@ class ClientCreateScreen extends Screen
                 ->route('clients')
                 ->class('text-warning'),
             Button::make('Добавить')
-                ->method('createOrUpdateTruck')
+                ->method('createOrUpdateClient')
                 ->class('text-primary')
                 ->canSee(!$this->client->exists),
             Button::make('Сохранить')
-                ->method('createOrUpdateTruck')
+                ->method('createOrUpdateClient')
                 ->class('text-info')
                 ->canSee($this->client->exists),
             Button::make('Удалить')
@@ -74,13 +74,18 @@ class ClientCreateScreen extends Screen
         ];
     }
 
-    public function createOrUpdateTruck(Client $client, ClientRequest $request)
+    public function createOrUpdateClient(Client $client, ClientRequest $request)
     {
+        if(isset($_COOKIE['last_uri'])){
+            $last_uri = ($_COOKIE['last_uri']);
+            setcookie('last_uri', '', time()-3600, '/');
+        }
+
         $client->fill($request->get('client'))->save();
 //        $client->attachments()->syncWithoutDetaching(
 //            $request->input('client.attachments', [])
 //        );
         !$this->client->exists ? Toast::info('Клиент успешно добавлен!') : Toast::info('Изменения сохранены');
-        return redirect()->route('clients');
+        return redirect($last_uri);
     }
 }

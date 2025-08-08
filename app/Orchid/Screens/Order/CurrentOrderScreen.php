@@ -137,7 +137,7 @@ class CurrentOrderScreen extends Screen
                 Sight::make('description', 'Примечание'),
 //                Sight::make()->component(ImageComponent::class, ['attachments' => $attachments])
             ]),
-            Layout::component(ImageComponent::class),
+//            Layout::component(ImageComponent::class),
             Layout::modal('confirm', Layout::rows([
                 TextArea::make('order.description') -> title('Примечание к заказу'),
                 Input::make('order.confirmed_sum') ->title('Подтвержденная стоимость')
