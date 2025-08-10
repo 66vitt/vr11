@@ -22,6 +22,7 @@ use Orchid\Screen\Fields\Attach;
 use Orchid\Screen\Fields\Coords;
 use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Fields\Map;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Screen;
@@ -67,7 +68,7 @@ class CurrentOrderScreen extends Screen
     {
         return [
             ModalToggle::make('Добавить точку погрузки/выгрузки')
-                ->modal('addLoading')
+                ->modal('addPoint')
                 ->method('addLoading')
                 ->type(Color::SUCCESS)
                 ->canSee(Auth::user()->inRole('driver')),
@@ -145,19 +146,19 @@ class CurrentOrderScreen extends Screen
             Layout::rows([
                 Attach::make('order.attachments')
                     ->multiple()
+                    ->accept('image/*')
                     ->storage('orders_images')
                     ->title('Загрузить изображение')
-                    ->class('zalupa')
                     ->horizontal()
                     ->withoutFormType(),
             ]),
-            Layout::modal('addLoading', Layout::rows([
+            Layout::modal('addPoint', Layout::rows([
                 Select::make('type')
                     ->options([
                         'loading' => 'Погрузка',
                         'uploading' => 'Выгрузка'
                     ]),
-                Input::make('address'),
+                Input::make('address')->title('Адрес'),
                 Coords::make('coords')
             ]))->canSee(Auth::user()->inRole('driver'))
             ->title('Добавление точки погрузки/выгрузки'),
