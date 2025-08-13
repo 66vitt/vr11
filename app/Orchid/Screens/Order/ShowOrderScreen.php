@@ -150,7 +150,7 @@ class ShowOrderScreen extends Screen
                 Sight::make('confirmed_sum', 'Стоимость заказа'),
                 Sight::make('description', 'Примечание'),
             ]),
-            Layout::component(ImageComponent::class),
+//            Layout::component(ImageComponent::class),
             Layout::modal('confirm', Layout::rows([
                 TextArea::make('order.description') -> title('Примечание к заказу'),
                 Input::make('order.confirmed_sum') ->title('Подтвержденная стоимость')
