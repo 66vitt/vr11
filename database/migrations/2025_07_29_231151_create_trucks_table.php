@@ -22,11 +22,11 @@ return new class extends Migration
             $table->date('service_date')->nullable();
             $table->integer('to_km')->nullable();
             $table->integer('now_km')->nullable();
-            $table->integer('total_height')->nullable();
-            $table->integer('body_height')->nullable();
-            $table->integer('body_width')->nullable();
-            $table->integer('body_length')->nullable();
-            $table->integer('tonnage')->nullable();
+            $table->float('total_height')->nullable();
+            $table->float('body_height')->nullable();
+            $table->float('body_width')->nullable();
+            $table->float('body_length')->nullable();
+            $table->float('tonnage')->nullable();
 
             $table->unsignedInteger('image_id')->nullable();
             $table->foreign('image_id')
