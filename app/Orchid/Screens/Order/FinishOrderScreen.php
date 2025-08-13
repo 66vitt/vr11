@@ -83,7 +83,7 @@ class FinishOrderScreen extends Screen
         $hours_norm = $rate['city_limit_time'];
         $distance = $data['end_km'] - $this->order['start_km'];
         if($distance <= 50){
-            $sum += $rate['city50'];
+            $sum += $rate['city'];
         } elseif ($distance > 50 && $distance <= 100){
             $sum += $rate['region100'];
             $hours_norm += 1;
@@ -106,12 +106,20 @@ class FinishOrderScreen extends Screen
         $sum += $data['ot_number'] * $rate['ot_cost'];
 
         $sum += $data['self_number'] * $rate['self_cost'];
-        $data['odd_point_number'] = $this->order->points->count() > 2 ? $this->order->points->count() - 2 : 0;
+
+        $points_count = $this->order->points->count();
+
+        if($points_count === 0 || $points_count === 1 || $points_count === 2){
+            $data['odd_point_number'] = 0;
+        } else{
+            $data['odd_point_number'] = $points_count - 2;
+        }
 
         $sum += $data['odd_point_number'] * $rate['odd_point_cost'];
 
         $data['sum'] = $sum;
         $data['confirmed_sum'] = $data['sum'];
+        dd($data);
 
 
 
