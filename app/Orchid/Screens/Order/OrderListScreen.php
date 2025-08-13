@@ -11,7 +11,7 @@ use Orchid\Support\Color;
 
 class OrderListScreen extends Screen
 {
-    public $order;
+    public $currentOrder;
 
     /**
      * Fetch data to be displayed on the screen.
@@ -22,7 +22,7 @@ class OrderListScreen extends Screen
     {
         return [
             'orders' => Order::where('sum', '!=', 'null')->filters()->defaultSort('created_at', 'desc')->paginate(20),
-            'order' => Order::where('sum', null)->first(),
+            'currentOrder' => Order::where('sum', null)->where('user_id', Auth::user()->id)->first(),
         ];
     }
 
@@ -43,19 +43,23 @@ class OrderListScreen extends Screen
      */
     public function commandBar(): iterable
     {
-        return [
-            Link::make('Начать заказ')
-                ->icon('pencil')
-                ->type(Color::PRIMARY)
-                ->route('order.start')
-                ->canSee(Auth::user()->roles->count() !== 0 && Auth::user()->roles[0]->slug === 'driver' && $this->order === null),
-//            Link::make('На заказе')
-//                ->canSee(Auth::user()->roles[0]->slug === 'driver' && $this->order !== null)
-//                ->icon('pencil')
-//                ->type(Color::WARNING)
-//                ->route('current_order', $this->order->id),
-
-        ];
+        if($this->currentOrder === null){
+            return [
+                Link::make('Начать заказ')
+                    ->icon('pencil')
+                    ->type(Color::PRIMARY)
+                    ->route('order.start')
+                    ->canSee(Auth::user()->roles->count() !== 0 && Auth::user()->roles[0]->slug === 'driver'),
+            ];
+        } else {
+            return [
+                Link::make('На заказе')
+                    ->canSee(Auth::user()->roles[0]->slug === 'driver' && $this->currentOrder !== null)
+                    ->icon('pencil')
+                    ->type(Color::WARNING)
+                    ->route('current_order', $this->currentOrder->id, false),
+            ];
+        }
     }
 
     /**

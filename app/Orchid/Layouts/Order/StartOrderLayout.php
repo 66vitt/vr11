@@ -4,6 +4,7 @@ namespace App\Orchid\Layouts\Order;
 
 use App\Models\Client;
 use App\Models\Truck;
+use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Field;
 use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Fields\Input;
@@ -34,12 +35,15 @@ class StartOrderLayout extends Rows
                 ->placeholder('Начальный пробег')
                 ->required(),
             Group::make([
-                Input::make('1'),
-                Input::make('2')
-            ]),
-            Select::make('order.client_id')
-                ->title('Заказчик')
-                ->fromModel(Client::class, 'title'),
+                Select::make('order.client_id')
+                    ->title('Заказчик')
+                    ->fromModel(Client::class, 'title'),
+                Link::make()
+                    ->class('fs-2 text-primary')
+                    ->icon('bs.person-plus')
+                    ->route('client.create')
+            ])->alignEnd(),
+
 
             Select::make('order.truck_id')
                 ->title('Автомобиль')

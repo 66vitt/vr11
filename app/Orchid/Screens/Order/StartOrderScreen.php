@@ -72,15 +72,9 @@ class StartOrderScreen extends Screen
      */
     public function layout(): iterable
     {
+        setcookie('last_uri', $_SERVER['REQUEST_URI'], 0, '/');
         return [
-            Layout::rows([
-                Group::make([
-                    Input::make('zalupa')->title('zalupa'),
-                    Input::make('zalupa')->title('zalupa'),
-                ])
-            ])
-//            StartOrderLayout::class,
-
+            StartOrderLayout::class,
         ];
     }
 
