@@ -28,6 +28,7 @@ class FinanceListTable extends Table
     {
         return [
             TD::make('id', '№ п/п')->sort(),
+            TD::make('created_at', 'Дата'),
             TD::make('sum', 'Сумма')->sort(),
             TD::make('motivo', 'Основание')
                 ->render(function(Finance $finance){
@@ -37,9 +38,9 @@ class FinanceListTable extends Table
                         return Link::make('Расход №' . $finance->expense_id)->route('expense.show', $finance->expense_id);
                     } elseif ($finance->receipt_id !== NULL){
                         return Link::make('Получение №' . $finance->receipt_id)->route('receives');
-                    } ;
+                    }
                 }),
-            TD::make()
+            TD::make('total', 'К выплате')
         ];
     }
 }

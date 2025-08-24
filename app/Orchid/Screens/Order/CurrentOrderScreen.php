@@ -15,6 +15,7 @@ use DateInterval;
 use DateTimeInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Field;
@@ -151,6 +152,8 @@ class CurrentOrderScreen extends Screen
                     ->title('Загрузить изображение')
                     ->horizontal()
                     ->withoutFormType(),
+                Button::make('Сохранить')
+                    ->method('addImages')
             ]),
             Layout::modal('addPoint', Layout::rows([
                 Select::make('type')
@@ -194,5 +197,11 @@ class CurrentOrderScreen extends Screen
         $order->fill($data)->save();
 
         Toast::info('Стоимость заказа подтверждена!');
+    }
+
+    public function addImages(Order $order, Request $request){
+        $order->attachments()->syncWithoutDetaching(
+            $request->input('order.attachments', [])
+        );
     }
 }

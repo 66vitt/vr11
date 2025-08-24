@@ -148,13 +148,20 @@ class ShowOrderScreen extends Screen
                 Sight::make('self_number', 'Количество погруженных банок 30м3'),
                 Sight::make('odd_point_number', 'Дополнительные адреса погрузки/выгрузки'),
                 Sight::make('confirmed_sum', 'Стоимость заказа'),
+                Sight::make('cash', 'Полученная наличная оплата'),
                 Sight::make('description', 'Примечание'),
             ]),
-//            Layout::component(ImageComponent::class),
+
+
+            Layout::component(ImageComponent::class),
+
+
             Layout::modal('confirm', Layout::rows([
                 TextArea::make('order.description') -> title('Примечание к заказу'),
                 Input::make('order.confirmed_sum') ->title('Подтвержденная стоимость')
             ]))->title('Подтверждение стоимости заказа'),
+
+
             Layout::modal('addLoading', Layout::rows([
                 Select::make('type')
                     ->options([

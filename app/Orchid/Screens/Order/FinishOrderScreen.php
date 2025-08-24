@@ -119,7 +119,6 @@ class FinishOrderScreen extends Screen
 
         $data['sum'] = $sum;
         $data['confirmed_sum'] = $data['sum'];
-        dd($data);
 
 
 

@@ -4,11 +4,8 @@ namespace App\Orchid\Screens\Finance;
 
 use App\Models\Finance;
 use App\Orchid\Layouts\Finance\FinanceListTable;
-use Orchid\Screen\Actions\Link;
-use Orchid\Screen\Actions\ModalToggle;
-use Orchid\Screen\Fields\Input;
+use Illuminate\Support\Facades\Auth;
 use Orchid\Screen\Screen;
-use Orchid\Support\Facades\Layout;
 
 class FinanceListScreen extends Screen
 {
@@ -19,9 +16,15 @@ class FinanceListScreen extends Screen
      */
     public function query(): iterable
     {
+        if(Auth::user()->roles[0]->slug === 'admin') {
+            return [
+                'finances' => Finance::filters()->defaultSort('id', 'desc')->paginate()
+            ];
+        }
         return [
-            'finances' => Finance::all()
+            'finances' => Finance::where('user_id', Auth::user()->id)->filters()->defaultSort('id', 'desc')->paginate()
         ];
+
     }
 
     /**
