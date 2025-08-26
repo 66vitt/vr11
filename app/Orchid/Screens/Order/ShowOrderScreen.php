@@ -2,6 +2,7 @@
 
 namespace App\Orchid\Screens\Order;
 
+use App\Actions\FinanceCreateAction;
 use App\Http\Requests\ConfirmOrderRequest;
 use App\Models\Client;
 use App\Models\Finance;
@@ -62,22 +63,6 @@ class ShowOrderScreen extends Screen
     public function commandBar(): iterable
     {
         return [
-//            ModalToggle::make('Добавить точку погрузки/выгрузки')
-//                ->modal('addLoading')
-//                ->method('addLoading')
-//                ->type(Color::SUCCESS)
-//                ->canSee(Auth::user()->inRole('driver'))
-//                ->canSee($this->order->end_time === null),
-//            ModalToggle::make('Добавить разгрузку')
-//                ->modal('addUploading')
-//                ->method('addUploading')
-//                ->type(Color::ERROR)
-//                ->canSee(Auth::user()->inRole('driver')),
-//            Link::make('Завершить заказ')
-//                ->type(Color::DANGER)
-//                ->route('order.finish', $this->order->id)
-//                ->canSee(Auth::user()->id === $this->order->user_id)
-//                ->canSee($this->order->end_time === null),
             ModalToggle::make('Подтвердить')
                 ->modal('confirm')
                 ->method('confirm')
@@ -174,46 +159,16 @@ class ShowOrderScreen extends Screen
         ];
     }
 
-    public function addLoading(Request $request){
-        $data = $request->validate([
-            'type' => ['required', 'string'],
-            'address' => ['required', 'string'],
-            'coords' => ['array:lat,lng'],
-        ]);
-        $point = Point::firstOrCreate([
-            'address' => $data['address'],
-            'type' => $data['type']
-        ],[
-            'address' => $data['address'],
-            'lat' => $data['coords']['lat'],
-            'lng' => $data['coords']['lng'],
-            'type' => $data['type']
-        ]);
-        OrderPoint::create([
-            'order_id' => $this->order->id,
-            'point_id' => $point['id']
-        ]);
-        $data['type'] === 'loading' ? Toast::info('Адрес погрузки добавлен!') : Toast::info('Адрес разгрузки добавлен!');
-    }
 
-
-    public function confirm(Order $order, ConfirmOrderRequest $request){
+    public function confirm(Order $order, ConfirmOrderRequest $request, FinanceCreateAction $action){
         $data = $request->get('order');
         $data['confirmed'] = 1;
         $order->fill($data)->save();
 
         //Добавление данных в таблицу финансов
-        $findata['user_id'] = $this->order->user_id;
-        $findata['sum'] = $data['confirmed_sum'];
-        $findata['order_id'] = $this->order->id;
-        $findata['target'] = 1;
-        $financeLast = Finance::where('user_id', $this->order->user_id)->orderBy('id', 'desc')->first();
-        if($financeLast === null){
-            $findata['total'] = $findata['sum'];
-        } else {
-            $findata['total'] = $financeLast['total'] + $findata['sum'];
-        }
-        Finance::create($findata);
+        $operation = $order;
+        $operation['money'] = $data['confirmed_sum'];
+        $action->handle($operation, $target = 1);
 
         Toast::info('Стоимость заказа подтверждена!');
     }

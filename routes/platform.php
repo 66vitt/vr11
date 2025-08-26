@@ -127,6 +127,16 @@ Route::screen('receives', \App\Orchid\Screens\Finance\ReceivesListScreen::class)
     ->breadcrumbs(fn(Trail $trail) => $trail
         ->parent('finances')
         ->push('Получение', route('receives')));
+Route::screen('expenses', \App\Orchid\Screens\Finance\ExpensesListScreen::class)
+    ->name('expenses')
+    ->breadcrumbs(fn(Trail $trail) => $trail
+        ->parent('finances')
+        ->push('Расходы', route('expenses')));
+Route::screen('expense/{expense?}', \App\Orchid\Screens\Finance\ShowExpenseScreen::class)
+    ->name('expense.show')
+    ->breadcrumbs(fn(Trail $trail) => $trail
+        ->parent('expenses')
+        ->push('Просмотр наличного расхода', route('expense.show')));
 
 
 

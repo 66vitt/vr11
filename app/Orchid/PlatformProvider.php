@@ -64,6 +64,10 @@ class PlatformProvider extends OrchidServiceProvider
                 ->icon('bs.truck')
                 ->route('receives'),
 
+            Menu::make('Расходы')
+                ->icon('bs.truck')
+                ->route('expenses'),
+
             Menu::make('Sample Screen')
                 ->icon('bs.collection')
                 ->route('platform.example')

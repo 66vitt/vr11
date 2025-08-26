@@ -59,6 +59,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'receipts_images' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/receipts'),
+            'url' => env('APP_URL').'/storage/receipts',
+            'visibility' => 'public',
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

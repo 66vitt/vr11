@@ -22,6 +22,7 @@ class ImageComponent extends Component
      */
     public function render(): View|Closure|string
     {
+//        dd(is_countable($this->attachments));
         return view('components.image-component');
     }
 }

@@ -80,4 +80,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Receive::class);
     }
+    public function expenses(): HasMany
+    {
+        return $this->hasMany(Expense::class);
+    }
 }

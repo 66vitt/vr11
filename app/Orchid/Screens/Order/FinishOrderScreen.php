@@ -2,6 +2,7 @@
 
 namespace App\Orchid\Screens\Order;
 
+use App\Actions\FinanceCreateAction;
 use App\Http\Requests\FinishOrderRequest;
 use App\Http\Requests\StartOrderRequest;
 use App\Models\Finance;
@@ -71,7 +72,7 @@ class FinishOrderScreen extends Screen
         ];
     }
 
-    public function createOrUpdate(FinishOrderRequest $request)
+    public function createOrUpdate(FinishOrderRequest $request, FinanceCreateAction $action)
     {
 //        dd($request->all());
         //Добавление данных в таблицу заказов
@@ -126,32 +127,11 @@ class FinishOrderScreen extends Screen
         $this->order->attachments()->syncWithoutDetaching(
             $request->input('order.attachments', [])
         );
+        $operation = $this->order;
 
-        //Добавление данных в таблицу финансов
-//        $findata['user_id'] = $this->order->user_id;
-//        $findata['sum'] = $data['confirmed_sum'];
-//        $findata['order_id'] = $this->order->id;
-//        $findata['target'] = 1;
-//        $financeLast = Finance::where('user_id', $this->order->user_id)->orderBy('id', 'desc')->first();
-//        if($financeLast === null){
-//            $findata['total'] = $findata['sum'];
-//        } else {
-//            $findata['total'] = $financeLast['total'] + $findata['sum'];
-//        }
-//        Finance::create($findata);
-//
         if($data['cash'] != 0){
-            $fincash['user_id'] = $this->order->user_id;
-            $fincash['sum'] = $data['cash'];
-            $fincash['order_id'] = $this->order->id;
-            $fincash['target'] = 2;
-            $financeLast = Finance::where('user_id', $this->order->user_id)->orderBy('id', 'desc')->first();
-            if($financeLast === null){
-                $fincash['total'] = -$fincash['sum'];
-            } else {
-                $fincash['total'] = $financeLast['total'] - $fincash['sum'];
-            }
-            Finance::create($fincash);
+            $operation['money'] = $data['cash'];
+            $action->handle($operation, $target = 2);
         }
 
         Toast::info('Заказ успешно завершен.');
