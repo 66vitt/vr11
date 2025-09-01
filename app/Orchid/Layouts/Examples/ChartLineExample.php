@@ -38,7 +38,7 @@ class ChartLineExample extends Chart
         return [
             [
                 'label'   => 'Medium',
-                'value'   => 40,
+                'value'   => 20,
             ],
         ];
     }

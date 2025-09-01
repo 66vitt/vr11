@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Orchid\Attachment\Attachable;
 use Orchid\Filters\Filterable;
+use Orchid\Metrics\Chartable;
 use Orchid\Screen\AsSource;
 
 class Order extends Model
 {
-    use HasFactory, AsSource, Filterable, Attachable, SoftDeletes;
+    use HasFactory, AsSource, Filterable, Attachable, SoftDeletes, Chartable;
 
     protected $fillable =
         [

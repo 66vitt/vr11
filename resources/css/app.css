@@ -1,5 +1,3 @@
-/*@import '';*/
-
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -11,11 +9,8 @@
     'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
-body#enter{
-    background: url(/Public/Images/arkafon.png) no-repeat;
-    background-position: center;
-    background-size: cover;
-}
+/*@import "tailwindcss";*/
+
 
 /*.container{*/
 /*    position: relative;*/

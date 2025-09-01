@@ -138,6 +138,16 @@ Route::screen('expense/{expense?}', \App\Orchid\Screens\Finance\ShowExpenseScree
         ->parent('expenses')
         ->push('Просмотр наличного расхода', route('expense.show')));
 
+//Статистика
+Route::screen('reports', \App\Orchid\Screens\Statistics\ReportsScreen::class)
+    ->name('reports')
+    ->breadcrumbs(fn(Trail $trail) => $trail
+        ->parent('platform.main')
+        ->push('Статистика', route('reports')));
+
+
+
+
 
 
 // Platform > Profile

@@ -40,7 +40,7 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route(config('platform.index')),
 
             Menu::make('Клиенты')
-                ->icon('bs.book')
+                ->icon('bs.person-lines-fill')
                 ->title('Navigation')
                 ->route('clients'),
 
@@ -49,52 +49,29 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('trucks'),
 
             Menu::make('Тарифы для водителей')
-                ->icon('bs.truck')
+                ->icon('bs.currency-exchange')
                 ->route('rates'),
 
             Menu::make('Заказы')
-                ->icon('bs.truck')
+                ->icon('bs.telephone-forward')
                 ->route('orders'),
 
             Menu::make('Общая таблица')
-                ->icon('bs.truck')
+                ->icon('bs.currency-dollar')
                 ->route('finances')
                 ->title('Финансы'),
             Menu::make('Получение наличных')
-                ->icon('bs.truck')
+                ->icon('bs.plus-square')
                 ->route('receives'),
 
             Menu::make('Расходы')
-                ->icon('bs.truck')
+                ->icon('bs.dash-square')
                 ->route('expenses'),
 
-            Menu::make('Sample Screen')
-                ->icon('bs.collection')
-                ->route('platform.example')
-                ->badge(fn () => 6),
-
-
-            Menu::make('Form Elements')
-                ->icon('bs.card-list')
-                ->route('platform.example.fields')
-                ->active('*/examples/form/*'),
-
-            Menu::make('Layouts Overview')
-                ->icon('bs.window-sidebar')
-                ->route('platform.example.layouts'),
-
-            Menu::make('Grid System')
-                ->icon('bs.columns-gap')
-                ->route('platform.example.grid'),
-
-            Menu::make('Charts')
-                ->icon('bs.bar-chart')
-                ->route('platform.example.charts'),
-
-            Menu::make('Cards')
-                ->icon('bs.card-text')
-                ->route('platform.example.cards')
-                ->divider(),
+            Menu::make('Статистика')
+                ->icon('bs.bar-chart-line')
+                ->title('Статистика')
+                ->route('reports'),
 
             Menu::make(__('Users'))
                 ->icon('bs.people')
@@ -107,18 +84,6 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.systems.roles')
                 ->permission('platform.systems.roles')
                 ->divider(),
-
-            Menu::make('Documentation')
-                ->title('Docs')
-                ->icon('bs.box-arrow-up-right')
-                ->url('https://orchid.software/en/docs')
-                ->target('_blank'),
-
-            Menu::make('Changelog')
-                ->icon('bs.box-arrow-up-right')
-                ->url('https://github.com/orchidsoftware/platform/blob/master/CHANGELOG.md')
-                ->target('_blank')
-                ->badge(fn () => Dashboard::version(), Color::DARK),
         ];
     }
 
