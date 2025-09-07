@@ -34,6 +34,12 @@ use Orchid\Support\Facades\Toast;
 
 class CurrentOrderScreen extends Screen
 {
+    public function permission(): ?iterable
+    {
+        return [
+            'current_order'
+        ];
+    }
     public $order;
 
     /**

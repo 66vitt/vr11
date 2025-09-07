@@ -14,6 +14,13 @@ use Orchid\Support\Facades\Toast;
 class ClientCreateScreen extends Screen
 {
     public $client;
+
+    public function permission(): ?iterable
+    {
+        return [
+            'client_add'
+        ];
+    }
     /**
      * Fetch data to be displayed on the screen.
      *
@@ -26,12 +33,6 @@ class ClientCreateScreen extends Screen
         ];
     }
 
-    public function permission(): ?iterable
-    {
-        return [
-            'user.client.create'
-        ];
-    }
 
     /**
      * The name of the screen displayed in the header.

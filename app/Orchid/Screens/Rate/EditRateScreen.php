@@ -12,6 +12,12 @@ use Orchid\Support\Facades\Toast;
 
 class EditRateScreen extends Screen
 {
+    public function permission(): ?iterable
+    {
+        return [
+            'edit_rate'
+        ];
+    }
     /**
      * Fetch data to be displayed on the screen.
      *

@@ -20,6 +20,12 @@ use Orchid\Support\Facades\Layout;
 
 class ReportsScreen extends Screen
 {
+    public function permission(): ?iterable
+    {
+        return [
+            'statistics'
+        ];
+    }
     /**
      * Fetch data to be displayed on the screen.
      *

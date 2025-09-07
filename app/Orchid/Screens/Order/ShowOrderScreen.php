@@ -29,6 +29,12 @@ use Orchid\Support\Facades\Toast;
 
 class ShowOrderScreen extends Screen
 {
+    public function permission(): ?iterable
+    {
+        return [
+            'show_order'
+        ];
+    }
     public $order;
 
     /**

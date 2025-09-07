@@ -11,6 +11,12 @@ use Orchid\Support\Color;
 
 class OrderListScreen extends Screen
 {
+    public function permission(): ?iterable
+    {
+        return [
+            'order_list'
+        ];
+    }
     public $currentOrder;
 
     /**

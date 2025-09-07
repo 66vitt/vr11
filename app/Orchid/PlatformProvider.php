@@ -42,7 +42,8 @@ class PlatformProvider extends OrchidServiceProvider
             Menu::make('Клиенты')
                 ->icon('bs.person-lines-fill')
                 ->title('Navigation')
-                ->route('clients'),
+                ->route('clients')
+                ->permission('client_list'),
 
             Menu::make('Автотранспорт')
                 ->icon('bs.truck')
@@ -99,12 +100,29 @@ class PlatformProvider extends OrchidServiceProvider
             ItemPermission::group(__('System'))
                 ->addPermission('platform.systems.roles', __('Roles'))
                 ->addPermission('platform.systems.users', __('Users')),
-            ItemPermission::group(__('Пользовательская'))
-                ->addPermission('statistics', __('Статистика')),
+            ItemPermission::group(__('Клиенты'))
+                ->addPermission('client_list', __('Список клиентов'))
+                ->addPermission('client_add', __('Добавление и изменение клиентов')),
+            ItemPermission::group(__('Финансы'))
+                ->addPermission('expenses_list', 'Расходы')
+                ->addPermission('finance_list', 'Общий список')
+                ->addPermission('receives_list', 'Поступления')
+                ->addPermission('show_expense', 'Детали'),
+            ItemPermission::group(__('Заказы'))
+                ->addPermission('order_list', 'Список')
+                ->addPermission('start_order', 'Начало')
+                ->addPermission('current_order', 'Текущий')
+                ->addPermission('finish_order', 'Завершение')
+                ->addPermission('show_order', 'Просмотр'),
+            ItemPermission::group(__('Тарифы'))
+                ->addPermission('current_rate', 'Текущие тарифы')
+                ->addPermission('edit_rate', 'Редактирование тарифов'),
+            ItemPermission::group('Статистика')
+                ->addPermission('statistics', 'Статистика'),
             ItemPermission::group('Транспорт')
-                ->addPermission('truck', __('Автотранспорт')),
-            ItemPermission::group('Тарифы')
-                ->addPermission('rates', __('Тарифы для водителей'))
+                ->addPermission('truck_list', 'Список')
+                ->addPermission('truck_show', 'Просмотр')
+                ->addPermission('truck_edit', 'Правка'),
         ];
     }
 }

@@ -16,6 +16,12 @@ use Orchid\Support\Facades\Toast;
 
 class ReceivesListScreen extends Screen
 {
+    public function permission(): ?iterable
+    {
+        return [
+            'receives_list'
+        ];
+    }
     /**
      * Fetch data to be displayed on the screen.
      *
@@ -78,6 +84,7 @@ class ReceivesListScreen extends Screen
         $data = $request->validated();
         $data['user_id'] = auth()->user()->id;
         $operation = Receive::create($data);
+        $operation['money'] = $data['sum'];
 
         $action->handle($operation, $target = 3);
 

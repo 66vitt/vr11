@@ -18,6 +18,12 @@ use Orchid\Support\Facades\Toast;
 
 class StartOrderScreen extends Screen
 {
+    public function permission(): ?iterable
+    {
+        return [
+            'start_order'
+        ];
+    }
     public $order;
     public $order_last;
     /**

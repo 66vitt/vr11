@@ -4,12 +4,19 @@ namespace App\Orchid\Screens\Rate;
 
 use App\Models\Rate;
 use App\Orchid\Layouts\Rate\CurrentRateLayout;
+use Illuminate\Support\Facades\Auth;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
 use Orchid\Support\Color;
 
 class CurrentRateScreen extends Screen
 {
+    public function permission(): ?iterable
+    {
+        return [
+            'current_rate'
+        ];
+    }
     /**
      * Fetch data to be displayed on the screen.
      *
@@ -44,6 +51,7 @@ class CurrentRateScreen extends Screen
                  ->icon('pencil')
                  ->type(Color::PRIMARY)
                  ->route('rates.edit')
+                 ->canSee(Auth::user()->inRole('admin'))
          ];
     }
 

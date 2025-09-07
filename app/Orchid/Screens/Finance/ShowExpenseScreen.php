@@ -32,6 +32,12 @@ use Orchid\Support\Facades\Toast;
 
 class ShowExpenseScreen extends Screen
 {
+    public function permission(): ?iterable
+    {
+        return [
+            'show_expense'
+        ];
+    }
     public $expense;
 
     /**

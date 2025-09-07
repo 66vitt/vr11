@@ -9,6 +9,12 @@ use Orchid\Screen\Screen;
 
 class FinanceListScreen extends Screen
 {
+    public function permission(): ?iterable
+    {
+        return [
+            'finance_list'
+        ];
+    }
     /**
      * Fetch data to be displayed on the screen.
      *

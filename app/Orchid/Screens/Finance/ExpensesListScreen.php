@@ -10,6 +10,7 @@ use App\Models\Finance;
 use App\Models\Receive;
 use App\Orchid\Layouts\Finance\ExpensesListTable;
 use App\Orchid\Layouts\Finance\ReceivesListTable;
+use Illuminate\Support\Facades\Auth;
 use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Fields\Attach;
 use Orchid\Screen\Fields\Input;
@@ -20,6 +21,12 @@ use Orchid\Support\Facades\Toast;
 
 class ExpensesListScreen extends Screen
 {
+    public function permission(): ?iterable
+    {
+        return [
+            'expenses_list'
+        ];
+    }
     /**
      * Fetch data to be displayed on the screen.
      *
@@ -28,7 +35,7 @@ class ExpensesListScreen extends Screen
     public function query(): iterable
     {
         return [
-            'expenses' => auth()->user()->inRole('admin') ?  Expense::all() : auth()->user()->expenses,
+            'expenses' => auth()->user()->inRole('admin') ?  Expense::defaultSort('created_at', 'desc')->paginate(20) :  Expense::where('user_id', Auth::user()->id)->defaultSort('created_at', 'desc')->paginate(20),
         ];
     }
 

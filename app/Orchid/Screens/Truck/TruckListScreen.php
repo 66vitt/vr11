@@ -10,6 +10,12 @@ use Orchid\Support\Color;
 
 class TruckListScreen extends Screen
 {
+    public function permission(): ?iterable
+    {
+        return [
+            'truck_list'
+        ];
+    }
     /**
      * Fetch data to be displayed on the screen.
      *

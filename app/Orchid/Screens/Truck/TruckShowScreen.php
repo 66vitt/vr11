@@ -19,6 +19,12 @@ use Orchid\Support\Facades\Toast;
 
 class TruckShowScreen extends Screen
 {
+    public function permission(): ?iterable
+    {
+        return [
+            'truck_show'
+        ];
+    }
     public $truck;
 
     /**
