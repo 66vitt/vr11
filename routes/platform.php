@@ -39,6 +39,7 @@ Route::screen('/dashboard', PlatformScreen::class)
 
 // Clients
 Route::screen('/clients', \App\Orchid\Screens\Client\ClientListScreen::class)
+    ->middleware('access:user.client.create')
     ->name('clients')
     ->breadcrumbs(fn(Trail $trail) => $trail
         ->parent('platform.main')

@@ -71,7 +71,8 @@ class PlatformProvider extends OrchidServiceProvider
             Menu::make('Статистика')
                 ->icon('bs.bar-chart-line')
                 ->title('Статистика')
-                ->route('reports'),
+                ->route('reports')
+                ->permission('statistics'),
 
             Menu::make(__('Users'))
                 ->icon('bs.people')
@@ -98,6 +99,12 @@ class PlatformProvider extends OrchidServiceProvider
             ItemPermission::group(__('System'))
                 ->addPermission('platform.systems.roles', __('Roles'))
                 ->addPermission('platform.systems.users', __('Users')),
+            ItemPermission::group(__('Пользовательская'))
+                ->addPermission('statistics', __('Статистика')),
+            ItemPermission::group('Транспорт')
+                ->addPermission('truck', __('Автотранспорт')),
+            ItemPermission::group('Тарифы')
+                ->addPermission('rates', __('Тарифы для водителей'))
         ];
     }
 }

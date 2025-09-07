@@ -26,6 +26,13 @@ class ClientCreateScreen extends Screen
         ];
     }
 
+    public function permission(): ?iterable
+    {
+        return [
+            'user.client.create'
+        ];
+    }
+
     /**
      * The name of the screen displayed in the header.
      *
