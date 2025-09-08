@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Orchid;
 
+use App\Models\Finance;
+use App\Models\Order;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Orchid\Platform\Dashboard;
 use Orchid\Platform\ItemPermission;
 use Orchid\Platform\OrchidServiceProvider;
@@ -47,27 +51,55 @@ class PlatformProvider extends OrchidServiceProvider
 
             Menu::make('Автотранспорт')
                 ->icon('bs.truck')
-                ->route('trucks'),
+                ->route('trucks')
+                ->permission('truck_list'),
 
             Menu::make('Тарифы для водителей')
                 ->icon('bs.currency-exchange')
-                ->route('rates'),
+                ->route('rates')
+                ->permission('current_rate'),
 
             Menu::make('Заказы')
                 ->icon('bs.telephone-forward')
-                ->route('orders'),
+                ->route('orders')
+                ->permission('order_list')
+                ->badge(function(){
+                    if(Auth::user()->inRole('admin') && Order::where('confirmed', 0)->count() != 0){
+                        return Order::where('confirmed', 0)->count();
+                    }
+                }),
 
             Menu::make('Общая таблица')
                 ->icon('bs.currency-dollar')
                 ->route('finances')
-                ->title('Финансы'),
+                ->title('Финансы')
+                ->permission('finance_list')
+                ->badge(function(){
+                    if(Auth::user()->inRole('admin')){
+                        $users = User::all();
+                        $sum = 0;
+                        foreach($users as $user){
+                            if($user->finances->last() != null) {
+                                $sum += $user->finances->last()->total;
+                            }
+                        }
+                        return $sum;
+                    }
+                    $finance = Finance::where('user_id', Auth::user()->id)->defaultSort('created_at', 'desc')->first();
+                    if($finance) {
+                        return $finance->total;
+                    }
+                }),
+
             Menu::make('Получение наличных')
                 ->icon('bs.plus-square')
-                ->route('receives'),
+                ->route('receives')
+                ->permission('receives_list'),
 
             Menu::make('Расходы')
                 ->icon('bs.dash-square')
-                ->route('expenses'),
+                ->route('expenses')
+                ->permission('expenses_list'),
 
             Menu::make('Статистика')
                 ->icon('bs.bar-chart-line')
