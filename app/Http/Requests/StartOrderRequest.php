@@ -33,6 +33,7 @@ class StartOrderRequest extends FormRequest
             'order.start_km.integer' => 'Введите числовое значение',
             'order.client_id.required' => 'Поле обязятельно для заполнения',
             'order.client_id.integer' => 'Проверьте введенные данные',
+            'order.truck_id.required' => 'Выберите автомобиль',
         ];
     }
 }

@@ -3,6 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    @if(\Orchid\Support\Locale::isRtl())
+        <link rel="stylesheet" type="text/css" href="{{  mix('/css/orchid.rtl.css','vendor/orchid') }}"  data-turbo-track="reload" >
+    @else
+        <link rel="stylesheet" type="text/css" href="{{  mix('/css/orchid.css','vendor/orchid') }}"  data-turbo-track="reload" >
+    @endif
 
     <title>Laravel</title>
 
@@ -20,15 +25,15 @@
         </style>
     @endif
 </head>
-<body class="bg-[url(/public/Images/arkafon.png)] bg-cover dark:bg-[#ffffff] text-[#1b1b18] flex p-6 lg:p-8 items-center flex-col">
-<header class="w-full lg:max-w-4xl max-w-[335px]">
+<body id="enter">
+<header class="w-full p-3">
     {{--            @if (Route::has('login'))--}}
     {{--                <h1>zalupa</h1>--}}
-    <nav class="flex items-center justify-end gap-4">
-        <h1 class="mr-4">{{ $authUser }}</h1>
+    <nav id="profile" class="flex items-center justify-end gap-4">
+        <h4 class="mt-2">{{ $authUser }}</h4>
         <form action="{{ route('platform.logout') }}" method="post">
             @csrf
-            <button type="submit" class="cursor-pointer bg-gray-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">выход</button>
+            <button type="submit" class="mt-2 rounded-2 btn-addon">выход</button>
         </form>
     </nav>
     {{--            @endif--}}

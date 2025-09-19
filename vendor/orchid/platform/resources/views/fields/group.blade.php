@@ -1,4 +1,4 @@
-<div class="d-flex flex-column grid d-md-grid form-group {{ $align }}"
+<div class="d-flex flex-column grid grid-cols-2 d-md-grid form-group {{ $align }}"
     @style([
         '--bs-columns: '.count($group),
         'grid-template-columns: '. $widthColumns => $widthColumns !== null,

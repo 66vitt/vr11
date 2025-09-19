@@ -35,7 +35,7 @@ class FinanceListTable extends Table
                     if($finance->order_id !== NULL){
                         return Link::make(Finance::TARGET[$finance->target] . ' №' . $finance->order_id)->route('order.show', $finance->order_id);
                     } elseif ($finance->expense_id !== NULL){
-                        return Link::make('Расход №' . $finance->expense_id)->route('expenses', $finance->expense_id);
+                        return Link::make('Расход №' . $finance->expense_id)->route('expense.show', $finance->expense_id);
                     } elseif ($finance->receipt_id !== NULL){
                         return Link::make('Получение №' . $finance->receipt_id)->route('receives');
                     }

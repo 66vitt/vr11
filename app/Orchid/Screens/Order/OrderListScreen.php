@@ -28,12 +28,12 @@ class OrderListScreen extends Screen
     {
         if(Auth::user()->roles[0]->slug === 'admin') {
             return [
-                'orders' => Order::where('sum', '!=', 'null')->filters()->defaultSort('created_at', 'desc')->paginate(20),
+                'orders' => Order::filters()->defaultSort('created_at', 'desc')->paginate(20),
                 'currentOrder' => Order::where('sum', null)->where('user_id', Auth::user()->id)->first(),
             ];
         }
         return [
-            'orders' => Order::where('user_id', Auth::user()->id)->where('sum', '!=', 'null')->filters()->defaultSort('created_at', 'desc')->paginate(20),
+            'orders' => Order::where('user_id', Auth::user()->id)->filters()->defaultSort('created_at', 'desc')->paginate(20),
             'currentOrder' => Order::where('sum', null)->where('user_id', Auth::user()->id)->first(),
         ];
     }

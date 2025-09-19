@@ -47,7 +47,8 @@ class StartOrderLayout extends Rows
 
             Select::make('order.truck_id')
                 ->title('Автомобиль')
-                ->fromModel(Truck::class, 'number'),
+                ->fromModel(Truck::class, 'number')
+                ->required(),
 //            Relation::make('order.client_id.')
 //                ->title('Заказчик')
 //                ->fromModel(Client::class, 'title')
