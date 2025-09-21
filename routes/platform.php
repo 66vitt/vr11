@@ -35,7 +35,7 @@ use Tabuna\Breadcrumbs\Trail;
 Route::screen('/dashboard', PlatformScreen::class)
     ->name('platform.main')
     ->breadcrumbs(fn(Trail $trail) => $trail
-        ->push('', route('platform.main')));
+        ->push('Главная', route('platform.main')));
 
 // Clients
 Route::screen('/clients', \App\Orchid\Screens\Client\ClientListScreen::class)
@@ -200,21 +200,3 @@ Route::screen('roles', RoleListScreen::class)
         ->parent('platform.main')
         ->push(__('Roles'), route('platform.systems.roles')));
 
-// Example...
-Route::screen('example', ExampleScreen::class)
-    ->name('platform.example')
-    ->breadcrumbs(fn (Trail $trail) => $trail
-        ->parent('platform.main')
-        ->push('Example Screen'));
-
-Route::screen('/examples/form/fields', ExampleFieldsScreen::class)->name('platform.example.fields');
-Route::screen('/examples/form/advanced', ExampleFieldsAdvancedScreen::class)->name('platform.example.advanced');
-Route::screen('/examples/form/editors', ExampleTextEditorsScreen::class)->name('platform.example.editors');
-Route::screen('/examples/form/actions', ExampleActionsScreen::class)->name('platform.example.actions');
-
-Route::screen('/examples/layouts', ExampleLayoutsScreen::class)->name('platform.example.layouts');
-Route::screen('/examples/grid', ExampleGridScreen::class)->name('platform.example.grid');
-Route::screen('/examples/charts', ExampleChartsScreen::class)->name('platform.example.charts');
-Route::screen('/examples/cards', ExampleCardsScreen::class)->name('platform.example.cards');
-
-// Route::screen('idea', Idea::class, 'platform.screens.idea');

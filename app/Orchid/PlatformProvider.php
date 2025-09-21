@@ -45,7 +45,7 @@ class PlatformProvider extends OrchidServiceProvider
 
             Menu::make('Клиенты')
                 ->icon('bs.person-lines-fill')
-                ->title('Navigation')
+                ->title('Навигация')
                 ->route('clients')
                 ->permission('client_list'),
 
@@ -111,7 +111,7 @@ class PlatformProvider extends OrchidServiceProvider
                 ->icon('bs.people')
                 ->route('platform.systems.users')
                 ->permission('platform.systems.users')
-                ->title(__('Access Controls')),
+                ->title(__('Управление пользователями')),
 
             Menu::make(__('Roles'))
                 ->icon('bs.shield')

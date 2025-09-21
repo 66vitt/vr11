@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Orchid\Platform\Http\Controllers;
 
 use App\Models\User;
+use App\Notifications\NewsForAdmin;
 use Composer\InstalledVersions;
 use Composer\Semver\VersionParser;
 use Illuminate\Auth\EloquentUserProvider;
@@ -21,6 +22,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Orchid\Access\Impersonation;
 use App\Providers\RouteServiceProvider;
+use Orchid\Platform\Models\Role;
 
 class LoginController extends Controller
 {
@@ -113,7 +115,7 @@ class LoginController extends Controller
 
         return $request->wantsJson()
             ? new JsonResponse([], 204)
-            : redirect()->route('main');
+            : redirect()->route('platform.main');
     }
 
     /**
@@ -193,6 +195,8 @@ class LoginController extends Controller
 
     public function register(Request $request)
     {
+        $admin = User::find(1);
+
         $data = $request->validate([
             'name' => ['required', 'string'],
             'email' => ['required', 'string', 'email', 'unique:users'],
@@ -205,8 +209,9 @@ class LoginController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
+        $admin->notify(new NewsForAdmin('Новый пользователь', "Подтвердите регистрацию пользователя <a href='/users/$user->id/edit'> $user->name </a> и укажите его роль!"));
 
-//        event(new Registered($user));
+
         \Illuminate\Support\Facades\Auth::login($user, false);
 
 

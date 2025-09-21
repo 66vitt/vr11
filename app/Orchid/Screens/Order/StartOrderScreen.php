@@ -5,15 +5,9 @@ namespace App\Orchid\Screens\Order;
 use App\Http\Requests\StartOrderRequest;
 use App\Models\Order;
 use App\Orchid\Layouts\Order\StartOrderLayout;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Orchid\Screen\Actions\Button;
-use Orchid\Screen\Fields\Group;
-use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Screen;
 use Orchid\Support\Color;
-use Orchid\Support\Facades\Alert;
-use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
 
 class StartOrderScreen extends Screen
@@ -86,7 +80,6 @@ class StartOrderScreen extends Screen
 
     public function createOrUpdate(StartOrderRequest $request)
     {
-//        dd($request->all());
         $data = $request->get('order');
 
         $data['user_id'] = auth()->user()->id;
