@@ -51,7 +51,8 @@ class CurrentRateScreen extends Screen
                  ->icon('pencil')
                  ->type(Color::PRIMARY)
                  ->route('rates.edit')
-                 ->canSee(Auth::user()->inRole('admin'))
+                 ->canSee(Auth::user()->inRole('admin')),
+
          ];
     }
 
